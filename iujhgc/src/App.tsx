@@ -5,7 +5,7 @@ import { comparePdfToLegislation, type ComparisonResult } from './services/PdfSe
 import type { ReportWarningItem } from './services/ReportService';
 import { stashReportPayload } from './reportPayloadStorage';
 import { searchByMultipleKeywords } from './services/MultiKeywordSearchService';
-import { checkCompliance, type ComplianceCheckResult } from './services/ComplianceService';
+import { checkCompliance } from './services/ComplianceService';
 import SearchBar from './components/SearchBar';
 import LegislationCard from './components/LegislationCard';
 import DocumentViewer from './components/DocumentViewer';
@@ -14,7 +14,7 @@ import PdfUploader from './components/PdfUploader';
 import {
   Sparkles, Database, LayoutGrid, List,
   FileSearch, ChevronDown, ChevronUp, SlidersHorizontal,
-  Shield, FileCheck, FileDown
+  FileCheck, FileDown
 } from 'lucide-react';
 
 interface CompanyDetails {
@@ -66,8 +66,6 @@ const App: React.FC = () => {
   };
 
   // Compliance checking
-  const [complianceResult, setComplianceResult] = useState<ComplianceCheckResult | null>(null);
-  const [activeTab, setActiveTab] = useState<'legislation' | 'compliance'>('legislation');
 
   useEffect(() => { loadLatest(); }, []);
 
@@ -114,7 +112,6 @@ const App: React.FC = () => {
     if (pdfText) {
       try {
         const compliance = checkCompliance(pdfText, enrichedKeywords, companyDetails);
-        setComplianceResult(compliance);
         console.log('Compliance check completed:', compliance.analysis.complianceScore + '%');
       } catch (error) {
         console.error('Error in compliance check:', error);
@@ -142,9 +139,7 @@ const App: React.FC = () => {
     setPdfText(null);
     setPdfFileName(null);
     setPrioritizeErrors(false);
-    setComplianceResult(null);
     setSelectedReportWarningKeys([]);
-    setActiveTab('legislation');
   };
 
   // Compute comparisons for all entries
@@ -246,16 +241,15 @@ const App: React.FC = () => {
           background: 'var(--card-bg)', borderRadius: 0,
           border: '1px solid var(--card-border)',
         }}>
-          <Sparkles size={18} color="var(--text-secondary)" />
+         
           <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-            UK compliance intelligence
           </span>
         </div>
         <h1 style={{ fontSize: '3.5rem', fontWeight: 700, letterSpacing: '0.06em', marginBottom: '1rem', textTransform: 'uppercase' }}>
           CompPro
         </h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}>
-          Search UK legislation and compare it against your documents in real time.
+          
         </p>
       </header>
 

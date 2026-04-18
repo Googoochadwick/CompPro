@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckCircle, XCircle, AlertTriangle, Info, FileText, Building, Briefcase } from 'lucide-react';
-import { ComplianceCheckResult, ComplianceRequirement } from '../services/ComplianceService';
+import type { ComplianceCheckResult, ComplianceRequirement } from '../services/ComplianceService';
 
 interface ComplianceCheckerProps {
   complianceResult: ComplianceCheckResult | null;

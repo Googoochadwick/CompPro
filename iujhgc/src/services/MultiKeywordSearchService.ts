@@ -1,5 +1,5 @@
 import { searchLegislation, type LegislationEntry } from './LegislationService';
-import { vectorSearch, batchVectorSearch } from './VectorSearchService';
+import { vectorSearch } from './VectorSearchService';
 
 interface KeywordSearchResult {
   keyword: string;

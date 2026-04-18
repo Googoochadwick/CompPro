@@ -199,7 +199,7 @@ export function analyzeCompanyType(pdfText: string): { type: string; sector: str
   const text = pdfText.toLowerCase();
   let bestMatch = { type: 'Private Limited Company', sector: 'General Business', confidence: 0 };
 
-  for (const [key, info] of Object.entries(COMPANY_TYPES)) {
+  for (const info of Object.values(COMPANY_TYPES)) {
     let score = 0;
     for (const keyword of info.keywords) {
       if (text.includes(keyword)) {
@@ -245,15 +245,16 @@ export function checkCompliance(pdfText: string, keywords: string[], details?: C
 
   // Calculate compliance score
   const totalRequirements = COMPLIANCE_REQUIREMENTS.length;
-  const mandatoryRequirements = COMPLIANCE_REQUIREMENTS.filter(r => r.mandatory);
-  const detectedMandatory = detectedRequirements.filter(r => r.mandatory);
 
   const complianceScore = Math.round(
     (detectedRequirements.length / totalRequirements) * 100
   );
 
+  const companyAnalysis = analyzeCompanyType(pdfText);
   const analysis: CompanyAnalysis = {
-    ...analyzeCompanyType(pdfText),
+    companyType: companyAnalysis.type,
+    sector: companyAnalysis.sector,
+    confidence: companyAnalysis.confidence,
     detectedRequirements,
     missingRequirements,
     complianceScore

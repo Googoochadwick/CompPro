@@ -13,7 +13,6 @@ interface PdfUploaderProps {
 const PdfUploader: React.FC<PdfUploaderProps> = ({ onTextExtracted, onKeywordsExtracted, onClear, fileName }) => {
   const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [extracting, setExtracting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const processFile = useCallback(async (file: File) => {
@@ -28,7 +27,6 @@ const PdfUploader: React.FC<PdfUploaderProps> = ({ onTextExtracted, onKeywordsEx
       onTextExtracted(text, file.name);
 
       // Extract keywords in background
-      setExtracting(true);
       try {
         const result = await extractKeywordsFromPdf(text);
         onKeywordsExtracted?.(result.keywords, result.topics);
@@ -37,7 +35,6 @@ const PdfUploader: React.FC<PdfUploaderProps> = ({ onTextExtracted, onKeywordsEx
       } catch (e) {
         console.warn('Keyword extraction failed, continuing without it', e);
       } finally {
-        setExtracting(false);
       }
     } catch (e: any) {
       setError('Failed to parse PDF. Please try another file.');

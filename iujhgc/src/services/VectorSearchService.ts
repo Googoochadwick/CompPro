@@ -1,5 +1,5 @@
 import { QdrantClient } from '@qdrant/js-client-rest';
-import { generateEmbedding, cosineSimilarity } from './EmbeddingService';
+import { generateEmbedding } from './EmbeddingService';
 
 const QDRANT_URL = 'http://localhost:6333';
 const COLLECTION_NAME = 'legislation';
@@ -91,7 +91,7 @@ export async function vectorSearch(query: string, limit: number = 5): Promise<Se
     });
 
     return results.map(result => ({
-      id: result.payload?.id || String(result.id),
+      id: String(result.payload?.id || result.id),
       similarity: result.score,
       metadata: result.payload || {},
     }));
@@ -159,7 +159,7 @@ export async function getCollectionStats(): Promise<{ pointCount: number } | nul
 
   try {
     const stats = await client.getCollection(COLLECTION_NAME);
-    return { pointCount: stats.points_count };
+    return { pointCount: stats.points_count ?? 0 };
   } catch (error) {
     console.warn('[Vector Search] Failed to get stats:', error);
     return null;

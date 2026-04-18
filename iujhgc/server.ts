@@ -87,13 +87,14 @@ ${issuesBlock}
 
 Requirements:
 - Write in clear UK English, imperative where appropriate (what the organisation should do).
-- Group related actions where sensible; use numbered sections and bullet points.
+- Use plain numbered sections and simple bullet points. Do NOT use markdown formatting such as **bold**, --- dividers, ### headers, or any special formatting characters.
 - Prioritise by severity and regulatory risk (critical/high first).
 - Include concrete steps (policies, documentation updates, legal review, training, filings, deadlines where applicable).
 - Do not repeat the raw issue text verbatim; synthesise into an executive action list.
 - If multiple issues share one remedy, merge them.
 - End with a short "Review cadence" line (e.g. when to reassess).
-- Maximum length: about 800 words unless fewer issues warrant less.`;
+- Maximum length: about 800 words unless fewer issues warrant less.
+- Output must be plain text only. Do not use any markdown or special formatting.`;
 
     const completion = await openai.chat.completions.create({
       model: 'minimaxai/minimax-m2.7',

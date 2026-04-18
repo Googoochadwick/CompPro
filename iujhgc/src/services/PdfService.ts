@@ -1,8 +1,10 @@
 import * as pdfjsLib from 'pdfjs-dist';
-import workerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-// Use the locally-bundled worker — no CDN required
-pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc;
+// Use the bundled worker - pdfjs-dist v5 handles this automatically
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url
+).toString();
 
 /** Extract all text from a PDF File object */
 export async function extractPdfText(file: File): Promise<string> {
